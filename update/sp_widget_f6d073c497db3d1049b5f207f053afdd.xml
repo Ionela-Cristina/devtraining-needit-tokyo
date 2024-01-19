@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller=function() {  /* widget controller */  var c = this;};]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>true</has_preview>
+        <id>home_page_tile</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {  }]]></link>
+        <name>Home Page Tile</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+  /* populate the 'data' object */
+  /* e.g., data.table = $sp.getValue('table'); */
+
+	var usr = gs.getUserID(); //sys_id
+	var grusr = new GlideRecord ('sys_user');
+	if(grusr.get(usr)){
+		
+		data.fname = grusr.getValue('first_name');
+		
+		var grtask = new GlideRecord('task');
+		grtask.addEncodedQuery('opened_by='+ grusr.getValue('sys_id'));
+		grtask.orderByDesc('sys_created_on');
+		grtask.query();
+		
+		if (grtask.next()){
+			data.task = grtask.getValue('number');
+			
+			
+		}
+		
+	}
+	
+	
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-12-19 15:12:54</sys_created_on>
+        <sys_id>f6d073c497db3d1049b5f207f053afdd</sys_id>
+        <sys_mod_count>13</sys_mod_count>
+        <sys_name>Home Page Tile</sys_name>
+        <sys_package display_value="NeedIt" source="x_58872_needit">6ead8e780f603200cd674f8ce1050ed1</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="NeedIt">6ead8e780f603200cd674f8ce1050ed1</sys_scope>
+        <sys_update_name>sp_widget_f6d073c497db3d1049b5f207f053afdd</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-12-20 12:54:39</sys_updated_on>
+        <template><![CDATA[<div>
+<!-- your widget template -->
+  Hello {{data.fname}},
+Last task open by {{data.task}}
+</div>]]></template>
+    </sp_widget>
+</record_update>
